@@ -1,0 +1,35 @@
+comandos**
+
+npm init -y ( o - y responde yes para todas perguntas e não ser interativo o comando)
+
+const http = require('http')
+
+aplicações HTTP => APIs
+
+================================================
+const http = require('http')
+// padrão: CommonJS => require
+
+//ESModule => import/export => "type": "module"{
+    {
+  "name": "01-fundamentos-nodejs",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
+
+}
+
+agora use: import http from 'http'
+import http from 'node:http'
+
+
+
+
