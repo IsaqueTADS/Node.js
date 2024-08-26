@@ -30,6 +30,41 @@ const http = require('http')
 agora use: import http from 'http'
 import http from 'node:http'
 
+=========================================================================
+import http from "node:http"; // modulo do http importado
+
+const server = http.createServer((request, response) => {
+  // resquest => req && response => res
+
+  return response.end("Hello World My god jesusssssss");
+});
+
+server.listen(3333); //Indica que o servidor está ouvindo a porta 3333
+
+// node --watch src/server.js : serve para dar restart no servidor
+
+
+
+
+/*
+
+  ROTAS: meios de entradas de executar diversas operaçãos dentro do backend
+
+  - Criar usuários
+  - Listagem de usuários
+  - Edição de usuários
+  - Remoção de usuários
+
+
+  -Requisição HTTP{
+   -Mŕtodo HTTP
+   -URL
+  }
+
+
+
+*/
+=========================================================================
 
 
 
