@@ -66,5 +66,151 @@ server.listen(3333); //Indica que o servidor está ouvindo a porta 3333
 */
 =========================================================================
 
+// Netflix & Spotify 
+
+// Importação de clientes via CSV (Excel)
+// 1gb - 1.000.000
+// POST /upload import.csv
+
+// 10mb/s - 100s
+
+// 100s => Inserção no banco de dados 
+
+// 10mb/s -> 10.000
+
+// Readable Streams / Writable Streams
+
+
+//===========================================================================
+
+
+// Streams -> 
+
+
+//process.stdin
+ //   .pipe(process.stdout)
+
+ import { Readable } from 'node:stream'
+
+ class OneToHundredStream extends Readable {
+    index = 1
+
+    _read() {
+        const i = this.index++
+
+       setTimeout(() => { 
+        if ( i > 100){
+            this.push(null)
+        } else {
+            const buf = Buffer.from(String(i))
+
+            this.push(buf)
+        }
+    },1000)
+    }
+ }
+
+ new OneToHundredStream()
+ .pipe(process.stdout)
+
+================================================================================================
+aula 18 par atras
+import http from "node:http"; // modulo do http importado
+import { json } from "./middlewares/json.js";
+import { randomUUID } from "node:crypto";
+import { Database } from "./database.js";
+
+// UUIS => Universal Unique ID
+
+// Parei na aula:
+
+const database = new Database();
+
+const server = http.createServer(async (req, res) => {
+  // resquest => req && response => res
+
+  const { method, url } = req; //uso da desestruturação
+
+  await json(req, res);
+
+  console.log(req.body);
+
+  console.log(method, url);
+
+  if (method === "GET" && url === "/users") {
+    //Early return
+    const users = database.select("users");
+    return res.end(JSON.stringify(users));
+  }
+  if (method === "POST" && url === "/users") {
+    const { name, email } = req.body;
+    const user = {
+      id: randomUUID(),
+      name,
+      email,
+    };
+    database.insert("users", user);
+    return res.writeHead(201).end(); // uso do status code
+  }
+
+  return res.writeHead(404).end();
+});
+server.listen(3333); //Indica que o servidor está ouvindo a porta 3333
+
+// node --watch src/server.js : serve para dar restart no servidor
+
+/*
+
+  ROTAS: meios de entradas de executar diversas operaçãos dentro do backend
+
+  - Criar usuários
+  - Listagem de usuários
+  - Edição de usuários
+  - Remoção de usuários
+
+
+  -Requisição HTTP{
+   -Mŕtodo HTTP
+   -URL
+  }
+
+   GET, POST, PUT, PATCH, DELETE
+
+   diferença semântica
+
+   GET => Buscar informção do Back-End
+
+   POST => Criar uma informção, um rescurso no back-end
+
+   PUT => Atualizar um recurso no back-end
+
+   PATCH => Atualizar uma nformção especifica de um recurso no back-end
+
+   DELETE => Deletar um recurso do back-end
+
+   EXEMPLOS:
+
+   GET /users => estou buscando um usuario no back-end
+
+   POST /users => Criar um usuário no back-end
+
+
+   AULA F005 -memorias
+
+   Stateful != Stateless[]
+
+   Stateful - gurada na memoria, e perde ao ser encerrado o servidor
+
+   JSON - Java script Object Notationequisição/resposta) => Metadados
+=======================================================================
+
+   HTTP Status Code
+
+  https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+
+
+
+
+*/
 
 

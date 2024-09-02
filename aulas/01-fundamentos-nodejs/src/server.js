@@ -1,35 +1,28 @@
 import http from "node:http"; // modulo do http importado
+import { json } from "./middlewares/json.js";
+import { routes } from "./routes.js";
 
-// Parei na aula:   f004:
+// UUIS => Universal Unique ID
 
+// Parei na aula: F018
 
-const users = []
-
-const server = http.createServer((request, response) => {
+const server = http.createServer(async (req, res) => {
   // resquest => req && response => res
 
-  const { method, url } = request; //uso da desestruturação
+  const { method, url } = req; //uso da desestruturação
 
-  console.log(method, url);
+  await json(req, res);
 
-  if (method === "GET" && url === "/users") {
-    //Early return
-    return response
-    .setHeader('Content-type', 'application/json')
-    .end(JSON.stringify(users));
-  }
-  if (method === "POST" && url === "/users") {
-    users.push({
-      id: 1,
-      name: 'IsaqueTADS',
-      email: 'isaquetads@example.com',
-    });
-    return response.end("Criação de usuários");
+  const route = routes.find((route) => {
+    return route.method === method && route.path === url;
+  });
+
+  if (route) {
+    return route.handler(req, res);
   }
 
-  return response.end("Hello Wordl, My goddd");
+  return res.writeHead(404).end();
 });
-
 server.listen(3333); //Indica que o servidor está ouvindo a porta 3333
 
 // node --watch src/server.js : serve para dar restart no servidor
@@ -76,6 +69,14 @@ server.listen(3333); //Indica que o servidor está ouvindo a porta 3333
 
    Stateful - gurada na memoria, e perde ao ser encerrado o servidor
 
-   JSON - JAva script Object Notationequisição/resposta) => Metadados
+   JSON - Java script Object Notationequisição/resposta) => Metadados
+=======================================================================
+
+   HTTP Status Code
+
+  https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+
+
+
 
 */
