@@ -17,7 +17,7 @@ export class Database {
 
   #persist() {
     fs.writeFile(databasePath, JSON.stringify(this.#database));
-  }
+  }  
 
   select(table) {
     const data = this.#database[table] ?? [];
